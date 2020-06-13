@@ -1,5 +1,7 @@
 from django.db import models
 
+from honorees.models import Honoree
+from contacts.models import Contact
 
 SYMBOL_TYPES = (
     ('body_of_water','body_of_water'), 
@@ -29,14 +31,22 @@ SYMBOL_TYPES = (
 # Create your models here.
 class Symbol(models.Model): 
     name = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-    county = models.CharField(max_length=255)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    county = models.CharField(max_length=50)
+    zip_code = models.CharField(max_length=5, null=True)
 
     latitude = models.DecimalField(max_digits=11, decimal_places=9)
     longitude = models.DecimalField(max_digits=12, decimal_places=9)
 
     symbol_type = models.CharField(max_length=30,choices=SYMBOL_TYPES)
 
-    # contacts 
-    # honorees 
+    petition_link = models.CharField(max_length=100, blank=True, default="")
+
+    approved = models.BooleanField(default=False)
+    removed = models.BooleanField(default=False)
+
+    photo = models.ImageField(null=True)
+
+    contacts = models.ManyToManyField(Contact)
+    honoree = models.ForeignKey(Honoree, on_delete=models.PROTECT, null=True)
