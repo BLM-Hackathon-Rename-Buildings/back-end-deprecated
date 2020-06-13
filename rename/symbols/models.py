@@ -1,7 +1,5 @@
 from django.db import models
 
-from honorees.models import Honoree
-from contacts.models import Contact
 
 SYMBOL_TYPES = (
     ('body_of_water','body_of_water'), 
@@ -26,7 +24,21 @@ SYMBOL_TYPES = (
     ('song','song'), 
 )
 
+class Honoree(models.Model): 
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
+    photo = models.ImageField(null=True)
 
+
+class Contact(models.Model): 
+    name=models.CharField(max_length=50)
+    title=models.CharField(max_length=100)
+    email=models.EmailField()
+    phone_number=models.CharField(max_length=15)
+
+    city=models.CharField(max_length=50)
+    state=models.CharField(max_length=50)
+    county=models.CharField(max_length=50)
 
 # Create your models here.
 class Symbol(models.Model): 
@@ -50,3 +62,6 @@ class Symbol(models.Model):
 
     contacts = models.ManyToManyField(Contact)
     honoree = models.ForeignKey(Honoree, on_delete=models.PROTECT, null=True)
+
+
+
